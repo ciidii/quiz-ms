@@ -12,7 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Setter
 @Entity
 @Table(name = "question")
-public class clsQuestion {
+public class Question {
     @Id
     @ColumnDefault("nextval('question_id_seq')")
     @Column(name = "id", nullable = false)
