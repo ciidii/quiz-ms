@@ -3,6 +3,7 @@ package com.kaakara.question_ms.service;
 
 import com.kaakara.question_ms.dao.QuestionDao;
 import com.kaakara.question_ms.model.Question;
+import com.kaakara.question_ms.model.QuestionWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,15 @@ public class QuestionService {
         List<Integer> questionIds = questionDao.findRandomQuestionsByCategory(categoryName, numQuestions);
 
         return new ResponseEntity<>(questionIds, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<QuestionWrapper>> fetchQuestions(List<Integer> questionIds) {
+        List<Question> questions = questionDao.findAllById(questionIds);
+        List<QuestionWrapper> questionWrappers = new ArrayList<>();
+        questions.forEach(question -> {
+
+            questionWrappers.add(new QuestionWrapper(question.getId(), question.getQuestionTitle(), question.getOption1(), question.getOption2(), question.getOption3(), question.getOption4()));
+        });
+        return new ResponseEntity<>(questionWrappers,HttpStatus.OK);
     }
 }
