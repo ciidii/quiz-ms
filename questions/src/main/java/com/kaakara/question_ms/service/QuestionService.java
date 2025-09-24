@@ -4,6 +4,7 @@ package com.kaakara.question_ms.service;
 import com.kaakara.question_ms.dao.QuestionDao;
 import com.kaakara.question_ms.model.Question;
 import com.kaakara.question_ms.model.QuestionWrapper;
+import com.kaakara.question_ms.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Service
@@ -55,6 +57,16 @@ public class QuestionService {
 
             questionWrappers.add(new QuestionWrapper(question.getId(), question.getQuestionTitle(), question.getOption1(), question.getOption2(), question.getOption3(), question.getOption4()));
         });
-        return new ResponseEntity<>(questionWrappers,HttpStatus.OK);
+        return new ResponseEntity<>(questionWrappers, HttpStatus.OK);
     }
+
+    public ResponseEntity<Integer> computeScore(List<Response> responses) {
+        int score = (int) responses.stream()
+                .filter(response -> questionDao.findById(response.getId())
+                        .map(q -> q.getRightAnswer().trim().equals(response.getResponse()))
+                        .orElse(false))
+                .count();
+        return ResponseEntity.ok(score);
+    }
+
 }
