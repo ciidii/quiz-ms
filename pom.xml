@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.kaakara</groupId>
-	<artifactId>quiz-ms</artifactId>
+	<artifactId>quiz-monolith</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>quiz-ms</name>
 	<description>Demo project for Spring Boot</description>
