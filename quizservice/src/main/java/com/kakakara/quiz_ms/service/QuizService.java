@@ -2,6 +2,9 @@ package com.kakakara.quiz_ms.service;
 
 import com.kakakara.quiz_ms.dao.QuizDao;
 import com.kakakara.quiz_ms.model.Question;
+import com.kakakara.quiz_ms.model.QuestionWrapper;
+import com.kakakara.quiz_ms.model.Quiz;
+import com.kakakara.quiz_ms.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +23,12 @@ public class QuizService {
 
     public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
 
-        List<Question> questions = questionDao.findRandomQuestionsByCategory(category, numQ);
-
-        Quiz quiz = new Quiz();
-        quiz.setTitle(title);
-        quiz.setQuestions(questions);
-        quizDao.save(quiz);
+//        List<Question> questions = questionDao.findRandomQuestionsByCategory(category, numQ);
+//
+//        Quiz quiz = new Quiz();
+//        quiz.setTitle(title);
+//        quiz.setQuestions(questions);
+//        quizDao.save(quiz);
 
         return new ResponseEntity<>("Success", HttpStatus.CREATED);
 
