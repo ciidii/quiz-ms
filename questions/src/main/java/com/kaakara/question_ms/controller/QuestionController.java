@@ -6,6 +6,7 @@ import com.kaakara.question_ms.model.QuestionWrapper;
 import com.kaakara.question_ms.model.Response;
 import com.kaakara.question_ms.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,8 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
+    @Autowired
+    Environment environment;
 
     @GetMapping("allQuestions")
     public ResponseEntity<List<Question>> getAllQuestions() {
@@ -40,8 +43,10 @@ public class QuestionController {
 
     @PostMapping("fetch-question")
     public ResponseEntity<List<QuestionWrapper>> fetchQuestions(@RequestBody List<Integer> questionIds) {
+        System.out.println(environment.getProperty("local.server.port"));
         return this.questionService.fetchQuestions(questionIds);
     }
+
     @PostMapping("score")
     public ResponseEntity<Integer> computeScore(@RequestBody List<Response> responses) {
         return questionService.computeScore(responses);
