@@ -2,6 +2,7 @@ package com.kakakara.quiz_ms.service;
 
 import com.kakakara.quiz_ms.dao.QuizDao;
 import com.kakakara.quiz_ms.feign.QuestionInterface;
+import com.kakakara.quiz_ms.model.Question;
 import com.kakakara.quiz_ms.model.QuestionWrapper;
 import com.kakakara.quiz_ms.model.Quiz;
 import com.kakakara.quiz_ms.model.Response;
@@ -35,9 +36,9 @@ public class QuizService {
     }
 
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(Integer id) {
-        Optional<Quiz> quiz = quizDao.findById(id);
-//        List<Question> questionsFromDB = quiz.get().getQuestions();
-        List<QuestionWrapper> questionsForUser = new ArrayList<>();
+        Quiz quiz = quizDao.findById(id).get();
+        List<Integer> questionsFromDB = quiz.getQuestions();
+        List<QuestionWrapper> questionsForUser = this.questionInterface.fetchQuestions(questionsFromDB).getBody();
 //        for(Question q : questionsFromDB){
 //            QuestionWrapper qw = new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4());
 //            questionsForUser.add(qw);
